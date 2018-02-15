@@ -1,0 +1,178 @@
+<!-- 
+All right, we're going to make the Hangman game. Here we go:
+
+    !--! IDEAS !--!
+        Tim Burton Movies
+        Pop Punk Band Names
+        African Safari (Find the Animal)
+        Events in Space
+        Amazon Rainforest (Things you find in the rainforest)
+        Disney Pixar Movies
+        Harry Potter
+        Colorado 14ers
+    
+    !--! MANDATORY DISPLAY !--!
+        Display "Press any key to get started!" on the page.
+        Display "Number of guesses remaining" on the page.
+        Display "Nope" when a wrong letter is pressed.
+        Display "catchphrase" when a correct letter is pressed.
+        Display "Letters already guessed" on the page.
+        Display "Wins/Losses" counter on the page.
+        Display "catchphraseWin" if user wins.
+        Display "catchphraseLose" if user loses.
+
+
+    !--! Step One - HTML !--! 
+        
+        1. Create GitHub repo called "Hangman-Game"
+        2. Git clone to computer.
+            A. Create index.html file for one of the above themes.
+            B. Create assets directory.
+            C. Create javascript directory.
+                I. Create game.js file.
+            D. Create css directory.
+                II. Use Bootstrap 4 to deliver CSS.
+            E. Create images directory.
+        3. Git push to GitHub so far.
+        4. index.html file
+            A. Header Bar from Portfolio (same CSS)
+                I. Container inside header bar
+                    1. Game Title (centered)
+            B. Create .container for page.
+                I. Create row.
+                    1. Create col-12
+                        a. H1 - "themeName" + "Hangman" or heroimage.png
+                11. Create row.
+                    1. Create col-12
+                        a. H2 - Use "gameDescriptor"
+                        b. P - "Press any key to get started!" --OR CLICK BELOW TO GET STARTED!
+                II. Create row.
+                    1. Create col-8 id="gameContainer" --MAKE DYNAMIC--
+                        a. Create CARD
+                            i. card-body
+                                a. JAVASCRIPT FOR GAME
+                    2. Create col-4 id="statsContainer" as CARD --MAKE DYNAMIC--
+                        a. card-header:
+                            i. H3 - "Game Stats"
+                            ii. P - "View your game stats below."
+                        b. card-body:
+                            i. Create .container id="scoreContainer"
+                                a. Create row.
+                                    i. Create col-12
+                                        a. "changeWins" JAVASCRIPT
+                                    i. Create col-12
+                                        a. "changeLosses" JAVASCRIPT
+                            ii. Create .container id="lettersGuessed"
+                                a. Create row.
+                                    i. Create col-12
+                                        a. H4 - "Letters Guessed Correctly:"
+                                    ii. Create col-12
+                                        a. P - "lettersCORRECT" JAVASCRIPT --CSS Green
+                                    iii. Create col-12
+                                        b. P - "lettersWRONG" JAVASCRIPT -- CSS Red
+                            iii. Create .container id="guesses"
+                                b. Create row.
+                                    i. Create col-12
+                                        a. H4 - "Guesses Remaining:"
+                                    ii. Create col-12
+                                        a. P - "guessesRemaining" JAVASCRIPT --CSS highlighted or 
+                                                bolded
+            
+        
+    !--! STEP TWO - CSS !--!
+        
+        1. Code into style.css 
+        2. gameContainer
+            i. flat-based, vector-styled.
+            ii. Pale flat Pantones for color scheme (Monument Valley)
+            iii. Scenic Hill Background, Small Sky Above, Cascading hills down to hangman's 
+                 podium.
+        3. statsContainer
+            i. muted background with 15px opacity box shadow, #444, 0 5px 5px 0;
+        4. Don't do black font for headers. Do better.
+    
+    
+    !--! STEP THREE - JAVASCRIPT !--!
+    
+        1. STEPS
+            a. Page loads.
+            b. User clicks on card to make it flip over and reveal the game.
+            c. Dashes show up below the card
+            d. Intro text shows up below the dashes.
+            e. User types a letter.
+            f. Computer registers letter typed versus letters needed.
+            g. If user types a correct letter, a message pops up and that letter is shown in the 
+               appropriate spot above dashes AND in sidebar.
+            h. If user types an incorrect letter, a message pops up and that letter is shown in 
+               SIDEBAR.
+            i. If user guesses incorrectly 4 times, user loses.
+            j. If user guesses word correctly, winning message appears.
+            k. When game is over, If user wins, add 1 to wins section in SIDEBAR, ELSE add 1 to 
+               loses SIDEBAR
+               When game is over, reset card to flipped over state.
+            l. 
+        
+        2. Grouped Steps
+            a. On Page Load
+                i.
+            b. Card onClick
+                i.      Rotate card to display hangmanVisual 
+                ii.     Show letterDash to accompanying word
+                iii.    Display userInputArea
+                iv.     computerChoice chooses random word from mountainNames array
+            c. When user hits a key onkeyup
+                i. 
+                ii.     If wrong key is pressed onkeyup
+                iii.    Elseif correct key is pressed onkeyup
+                iv.     If non-character is pressed
+            d. When word is guessed correctly.
+                i.
+            e. When fourth try fails
+                i.
+            f. On game complete
+                i. 
+
+        3. FUNCTIONS
+            a. hangmanVisual -      When user clicks on card, it flips over and 
+                                    hangmanVisual is displayed.
+            b. computerChoice -     Computer chooses a word from predetermined 
+                                    list of words.
+            c. userInputArea -      Below hangmanVisual, userInputArea "Guess what 
+                                    letter I'm thinking of" displays.
+            d. letterDash -         Below userInputArea, letterDash displays with 
+                                    number of letters needed.
+            e. userChoice -         Register keystroke and compare to computerChoice
+                                    to determine whether to display lettersCorrect
+                                    or lettersWrong
+            f. lettersCorrect -     = 0 at beginning of every game
+                                    If onkeyup is correct, add 0 to guesses remaining
+                                    and show letter in correct spot above letterDash,
+                                    and show letter in lettersCorrect box
+            g. lettersWrong -       = 0 at beginning of every game;
+                                    If onkeyup is incorrect, subtract 1 to
+                                    guessesRemaining;
+                                    Show letter in lettersWrong box
+            h. guessesRemaining -   If guessesRemaining < 1, run displayLoser
+            i. changeWins -         If userChoice completes computerChoice, add 1
+            j. changeLosses -       If userChoice is greater than 4, add 1
+            k. displayWinner -      If userChoice completes computerChoice, display
+                                    winner GIF and run gameEnd
+            l. displayLoser -       Display loser GIF and run gameEnd after 5 seconds
+            m. gameEnd -            Clear lettersWrong && lettersCorrect
+                                    Change guessesRemaining = 4
+                                    Change gameStart = True
+                                    Run computerChoice
+                                    Run userInputArea
+                                    Run letterDash
+
+        4. VARIABLES
+            a. statsContainer -     f
+            b. gameContainer -      f
+
+
+    !--! FINAL !--!
+
+        Create a README.md in repo describing the project.
+        LINK TO HOMEWORK FROM YOUR PORTFOLIO (MANDATORY FOR AN 'A'.)
+
+ -->
