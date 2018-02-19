@@ -1,127 +1,147 @@
 //Variables
-    var activeWord = [
-        "Antero", 
-        "Arkansas",
-        "Belford",
-        "Bross",
-        "Columbia", 
-        "Elbert", 
-        "Evans", 
-        "Harvard", 
-        "Lincoln", 
-        "Massive", 
-        "Princeton", 
-        "Shavano", 
-        "Sherman",
-        "Sniktau",
-        "Wilson", 
-        "Yale", 
-    ];
-    var computerChoice;
-    var computerChoiceLetters = [];
-    var newGame;
-    var playGame;
-    var lettersGuessed = [];
-    var lettersWrong = [];
-    var lettersRight = [];
-    var scoreContainer = 0;
-    var guessesRemaining = 4;
-    var letterDash = 0;
-    var changeWins = 0;
-    var changeLosses = 0;
-    var displayWinner = false;
-    var displayLoser = false;
+var activeWord = [
+    "antero",
+    "arkansas",
+    "belford",
+    "bross",
+    "columbia",
+    "elbert",
+    "evans",
+    "harvard",
+    "lincoln",
+    "massive",
+    "princeton",
+    "shavano",
+    "sherman",
+    "sniktau",
+    "wilson",
+    "yale",
+];
+var computerChoice;
+var computerChoiceLetters = [];
+var userGuess = [];
+var newGame;
+var playGame;
+var lettersWrong = [];
+var lettersCorrect = [];
+var guessesRemaining = 4;
+var changeWins = 0;
+var changeLosses = 0;
+var matchingLetter = [];
 
 //FUNCTIONS//
-    //Background Audio//
-    window.onload = function() {
-        document.getElementById("bg-audio").play();
+//Background Audio//
+window.onload = function () {
+    document.getElementById("bg-audio").play();
+    document.getElementById("changeWins").innerHTML = "Wins: " + changeWins;
+    newGame();
+
+}
+
+//New Game
+function newGame() {
+    // Reset values //
+    var lettersCorrect = [];
+    var lettersWrong = [];
+    var matchingLetter = [];
+    var computerChoiceLetters = [];
+    var guessesRemaining = 4;
+
+
+    // Run computerChoice to generate a word//
+    computerChoice = activeWord[Math.floor(Math.random() * activeWord.length)];
+    console.log(computerChoice);
+
+    // Create an array out of computerChoice//
+    for (var i = 0; i < computerChoice.length; i++) {
+        computerChoiceLetters.push(computerChoice.charAt(i));
+        console.log(computerChoiceLetters);
     }
 
-    //intializeGame
-    function newGame() {
-        // Reset values //
-        var lettersGuessed = [];
-        var lettersWrong = [];
-        var lettersRight = [];
-        var displayWinner = false;
-        var displayLoser = false;
-        var scoreContainer = 0;
-        var guessesRemaining = 4;
-        var letterDash = 0;
-    
-        // Run computerChoice to generate a word//
-        computerChoice = activeWord[Math.floor(Math.random() * activeWord.length)];
-            console.log(computerChoice);
-        
-        // Create an array out of computerChoice//
-        for (var i = 0; i < computerChoice.length; i++) {
-            computerChoiceLetters.push(computerChoice.charAt(i));
-            console.log(computerChoiceLetters);
-        }
-
-        // Insert underscores for every letter
-        for (var j = 0; j < computerChoiceLetters.length; j++) {
-            var newUl = document.createElement("li");
-            var placeHolder = document.createTextNode("_");
-            newUl.appendChild(placeHolder);
-            document.getElementById("letterBlanks").appendChild(newUl);
-            // document.getElementById("letterBlanks").innerHTML = "Mount " + newUl;
-        }
-        document.getElementById("guessesRemaining").innerHTML = "Guesses Remaining: " + guessesRemaining;
-
-	    playGame();
+    // Insert underscores for every letter
+    for (var j = 0; j < computerChoiceLetters.length; j++) {
+        var newUl = document.createElement("li");
+        var placeHolder = document.createTextNode("_");
+        newUl.appendChild(placeHolder);
+        document.getElementById("letterBlanks").appendChild(newUl);
+        // document.getElementById("letterBlanks").innerHTML = "Mount " + newUl;
     }
+    document.getElementById("guessesRemaining").innerHTML = "Guesses Remaining: " + guessesRemaining;
 
-    function playGame() {
-        //Log keystrokes
-        document.onkeyup = function(event) {
-            userGuess = event.key;
+    playGame();
+}
+
+// Remove child elements
+function removeChildElements(rootEl) {
+	while ( rootEl.firstChild ) {
+		rootEl.removeChild( rootEl.firstChild );
+	}
+}
+
+//What happens when the game begins
+function playGame() {
+    //Log keystrokes
+    document.onkeydown = function (event) {
+        userGuess = event.key;
 
         //Query keystrokes against computerChoice
-        if (userGuess === lettersRight) {
+        
+        if (computerChoiceLetters.includes(userGuess)) {
             duplicateGuess();
-        }
-        else if (userGuess !== computerChoiceLetters) {
-            incorrectGuess();
-        }
-        else if (userGuess === lettersRight) {
-            correctGuess();
+        } else {
+            // saveUserGuess();
+            if (computerChoiceLetters.indexOf(userGuess) > -1) {
+                correctGuess();
+                console.log("yes");
+            } else {
+                incorrectGuess();
+            }
         }
     }
-        
-    function correctGuess() {
 
-    } 
+
+    function correctGuess() {
+        lettersCorrect = userGuess;
+        document.getElementById("lettersCorrect").append(userGuess);
+        var letterBlanksList = document.getElementById("letterBlanks");
+        var letterBlanksItems = letterBlanksList.getElementsByTagName("li");
+        for (var i = 0; i < computerChoiceLetters.length; i++) {
+            if (computerChoiceLetters[i] === userGuess) {
+                letterBlanksItems[i].innerHTML = userGuess;
+                matchingLetter[i] = userGuess;
+            }
+        }
+        if (matchingLetter.toString() === computerChoiceLetters.toString()) {
+            displayWinner();
+        }
+    }
 
     function incorrectGuess() {
-
+        lettersWrong = userGuess;
+        document.getElementById("lettersWrong").append(userGuess);
+        guessesRemaining - 1;
+        if (guessesRemaining < 1) {
+            displayLoser();
+        }
     }
 
-    function duplicateGuess () {
-
+    function duplicateGuess() {
+        console.log("That letter has already been picked");
     }
-        //if keystroke === computerChoice, run correctGuess and update in lettersRight, and replace _ with letter.
-        //if keystroke !== computerChoice, run incorrectGuess then show keystroke in lettersWrong, change guessesRemaining --1
-        //if keystroke === lettersRight, alert "That has already been chosen"
-        
-    
-    newGame();
-    
-    document.getElementById("changeWins").innerHTML = "Wins: " + changeWins;
-    
 
 
-// given correct guesses Array["a", "f"]
+    function displayWinner() {
+        document.onkeypress = undefined;
+        alert("You win!");
+        console.log("You are a winner!");
+        changeWins + 1;
+        newGame();
+    }
 
-// given current guess
-// "r"
-// Loop through each letter of the WaveShaperNodeadd undersccore Headersloop through each correct SVGFEGaussianBlurElement if letter is same as current letter of word then replace with letter
-
-// given a word to check against
-// "fair"
-
-// given wa word to check against"Fair"
-
-// then show a string with correct WEBGL_compressed_texture_s3tc
-// "fa_r"
+    function displayLoser() {
+        document.onkeypress = undefined;
+        alert("The prisoner got free.");
+        console.log("You lose.");
+        newGame();
+    }
+}
