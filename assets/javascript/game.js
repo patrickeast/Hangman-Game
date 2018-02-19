@@ -23,8 +23,10 @@ var userGuess = [];
 var newGame;
 var playGame;
 var lettersWrong = [];
-var lettersCorrect = [];
+var lettersRight = [];
+var scoreContainer = 0;
 var guessesRemaining = 4;
+var letterDash = 0;
 var changeWins = 0;
 var changeLosses = 0;
 var matchingLetter = [];
@@ -34,19 +36,19 @@ var matchingLetter = [];
 window.onload = function () {
     document.getElementById("bg-audio").play();
     document.getElementById("changeWins").innerHTML = "Wins: " + changeWins;
-    newGame();
-
+    document.getElementById("descriptor").innerHTML = "Choose wisely. You have " + guessesRemaining  + " guesses remaining to hang the killer.";
+    
+    
 }
 
 //New Game
 function newGame() {
     // Reset values //
-    var lettersCorrect = [];
     var lettersWrong = [];
+    var lettersRight = [];
     var matchingLetter = [];
-    var computerChoiceLetters = [];
     var guessesRemaining = 4;
-
+    var userGuess;
 
     // Run computerChoice to generate a word//
     computerChoice = activeWord[Math.floor(Math.random() * activeWord.length)];
@@ -70,14 +72,6 @@ function newGame() {
 
     playGame();
 }
-
-// Remove child elements
-function removeChildElements(rootEl) {
-	while ( rootEl.firstChild ) {
-		rootEl.removeChild( rootEl.firstChild );
-	}
-}
-
 //What happens when the game begins
 function playGame() {
     //Log keystrokes
@@ -85,19 +79,21 @@ function playGame() {
         userGuess = event.key;
 
         //Query keystrokes against computerChoice
-        
-        if (computerChoiceLetters.includes(userGuess)) {
+        if (userGuess.includes(computerChoiceLetters)) {
             duplicateGuess();
-        } else {
+        }
+        else {
             // saveUserGuess();
             if (computerChoiceLetters.indexOf(userGuess) > -1) {
                 correctGuess();
-                console.log("yes");
-            } else {
+            }
+            else {
                 incorrectGuess();
             }
         }
     }
+
+
 
 
     function correctGuess() {
@@ -106,7 +102,7 @@ function playGame() {
         var letterBlanksList = document.getElementById("letterBlanks");
         var letterBlanksItems = letterBlanksList.getElementsByTagName("li");
         for (var i = 0; i < computerChoiceLetters.length; i++) {
-            if (computerChoiceLetters[i] === userGuess) {
+            if (computerChoiceLetters[i] == userGuess) {
                 letterBlanksItems[i].innerHTML = userGuess;
                 matchingLetter[i] = userGuess;
             }
@@ -117,12 +113,8 @@ function playGame() {
     }
 
     function incorrectGuess() {
-        lettersWrong = userGuess;
+        guessesRemaining = guessesRemaining + 1;
         document.getElementById("lettersWrong").append(userGuess);
-        guessesRemaining - 1;
-        if (guessesRemaining < 1) {
-            displayLoser();
-        }
     }
 
     function duplicateGuess() {
@@ -131,17 +123,15 @@ function playGame() {
 
 
     function displayWinner() {
-        document.onkeypress = undefined;
-        alert("You win!");
+        alert("Good job. The prisoner has been executed.")
         console.log("You are a winner!");
-        changeWins + 1;
-        newGame();
+        document.getElementById("changeWins").append(changeWins + 1);
     }
 
     function displayLoser() {
-        document.onkeypress = undefined;
-        alert("The prisoner got free.");
-        console.log("You lose.");
-        newGame();
+        console.log("The prisoner got away...");
+        guessesRemaining -= 1;
     }
 }
+
+newGame();
