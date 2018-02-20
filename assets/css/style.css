@@ -1,5 +1,5 @@
 body {
-    background-image: url(../images/bg-full.png);
+    background-image: url(../images/bgfull.jpg);
     background-repeat: no-repeat;
     background-size: 100%;
     /* Margin bottom by footer height */
@@ -100,7 +100,7 @@ p, li, ul, ol {
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: url(../images/overlaybg.png);
+    background-image: url(../images/bgcover.jpg);
     background-size: 100%;
     background-repeat: no-repeat;
     z-index: 2;
