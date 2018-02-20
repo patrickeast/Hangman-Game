@@ -12,9 +12,27 @@
         crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Annie+Use+Your+Telescope|Grand+Hotel" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
+    <script>
+        function on() {
+            document.getElementById("screenoverlay").style.display = "block";
+        }
+
+        function off() {
+            document.getElementById("screenoverlay").style.display = "none";
+        }
+    </script>
 </head>
 
 <body>
+    <div onload="on()" onclick="off()" id="screenoverlay">
+        <div class="container-fluid">
+            <div class="container example4 text-white">
+                <h2>Welcome, weary traveler, to the small windy town of Query. You're just in time. We recently captured the
+                    notorious serial killer, Java of Script. His hanging is scheduled for this evening.</h2>
+            </div>
+            <p class="text-center text-white align-center" id="introblock">You must be tired.<br>Click anywhere on the screen</br>to rest before the hanging.</p>
+        </div>
+    </div>
     <!-- <div class="navbar navbar-dark bg-dark justify-content-between">
         <div class="navbar-brand">
             Patrick East
@@ -32,9 +50,8 @@
     <br>
     <div class="container">
         <p class="text-center text-white intro-scroll">
-            Welcome, executioner, to the windy town of Ali. What once was a peaceful town has now become home to the infamous masked serial
-            killer, Java of Script. We have not a moment to lose. Your job: Guess the name of Colorado's peaks to hang the
-            prisoner. But be careful! Guess incorrectly, and he could go free.
+            We haven't a moment to lose. Your job: Guess the name of Colorado's peaks to hang the prisoner. But be careful! Guess incorrectly,
+            and he could go free.
         </p>
     </div>
     <div class="container" id="bg-container">
@@ -44,7 +61,7 @@
                 <div class="card bg-dark" id="gameContainer">
                     <div class="card-header text-center text-white">
                         <h2>
-                            Are you ready?
+                            The Hanging Block
                         </h2>
                     </div>
                     <div class="card-body hangmanGame">

@@ -123,7 +123,7 @@ function playGame() {
 
 
     function displayWinner() {
-        alert("Good job. The prisoner has been executed.")
+        alert("Good job, traveler. The prisoner has been executed.")
         console.log("You are a winner!");
         document.getElementById("changeWins").append(changeWins + 1);
     }
