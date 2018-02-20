@@ -24,9 +24,7 @@ var newGame;
 var playGame;
 var lettersWrong = [];
 var lettersRight = [];
-var scoreContainer = 0;
 var guessesRemaining = 4;
-var letterDash = 0;
 var changeWins = 0;
 var changeLosses = 0;
 var matchingLetter = [];
@@ -35,20 +33,29 @@ var matchingLetter = [];
 //Background Audio//
 window.onload = function () {
     document.getElementById("bg-audio").play();
-    document.getElementById("changeWins").innerHTML = "Wins: " + changeWins;
-    document.getElementById("descriptor").innerHTML = "Choose wisely. You have " + guessesRemaining  + " guesses remaining to hang the killer.";
-    
-    
+    newGame();
+
+
 }
 
 //New Game
 function newGame() {
     // Reset values //
-    var lettersWrong = [];
-    var lettersRight = [];
-    var matchingLetter = [];
-    var guessesRemaining = 4;
-    var userGuess;
+    lettersWrong = 0;
+    lettersRight = 0;
+    matchingLetter = [];
+    guessesRemaining = 4;
+    userGuess = 0;
+
+    //Clear old Letter Tiles and Letters Played lists
+    removeChildElements(document.getElementById("letterBlanks"));
+    removeChildElements(document.getElementById("lettersWrong"));
+    removeChildElements(document.getElementById("lettersRight"));
+
+    //Show wins and GuessesRemaining
+    document.getElementById("changeWins").innerHTML = "Wins: " + changeWins;
+    document.getElementById("descriptor").innerHTML = "Choose wisely. You have " + guessesRemaining + " guesses remaining to hang the killer.";
+    document.getElementById("guessesRemaining").innerHTML = "Guesses Remaining: " + guessesRemaining;
 
     // Run computerChoice to generate a word//
     computerChoice = activeWord[Math.floor(Math.random() * activeWord.length)];
@@ -66,12 +73,19 @@ function newGame() {
         var placeHolder = document.createTextNode("_");
         newUl.appendChild(placeHolder);
         document.getElementById("letterBlanks").appendChild(newUl);
-        // document.getElementById("letterBlanks").innerHTML = "Mount " + newUl;
     }
-    document.getElementById("guessesRemaining").innerHTML = "Guesses Remaining: " + guessesRemaining;
+
 
     playGame();
 }
+
+// Removes all Child elements
+function removeChildElements(rootEl) {
+    while (rootEl.firstChild) {
+        rootEl.removeChild(rootEl.firstChild);
+    }
+}
+
 //What happens when the game begins
 function playGame() {
     //Log keystrokes
@@ -79,7 +93,7 @@ function playGame() {
         userGuess = event.key;
 
         //Query keystrokes against computerChoice
-        if (userGuess.includes(computerChoiceLetters)) {
+        if (computerChoiceLetters === userGuess) {
             duplicateGuess();
         }
         else {
@@ -96,9 +110,10 @@ function playGame() {
 
 
 
+
     function correctGuess() {
-        lettersCorrect = userGuess;
-        document.getElementById("lettersCorrect").append(userGuess);
+        lettersRight = userGuess;
+        document.getElementById("lettersRight").append(userGuess);
         var letterBlanksList = document.getElementById("letterBlanks");
         var letterBlanksItems = letterBlanksList.getElementsByTagName("li");
         for (var i = 0; i < computerChoiceLetters.length; i++) {
@@ -113,10 +128,14 @@ function playGame() {
     }
 
     function incorrectGuess() {
-        document.getElementById("lettersWrong").append(userGuess);
-        document.getElementById("guessesRemaining").innerHTML = "Guesses Remaining: " + (guessesRemaining - 1);
-        playGame();
-
+        lettersWrong = userGuess;
+        if (lettersWrong >= 4) {
+            displayLoser();
+        } else {
+            document.getElementById("lettersWrong").append(userGuess);
+            document.getElementById("guessesRemaining").innerHTML = "Guesses Remaining: " + (guessesRemaining - 1);
+            playGame();
+        }
     }
 
     function duplicateGuess() {
@@ -128,12 +147,13 @@ function playGame() {
         alert("Good job, traveler. The prisoner has been executed.")
         console.log("You are a winner!");
         document.getElementById("changeWins").append(changeWins + 1);
+        newGame();
     }
 
     function displayLoser() {
         console.log("The prisoner got away...");
-        guessesRemaining -= 1;
+        newgame();
     }
 }
 
-newGame();
+// newGame();
