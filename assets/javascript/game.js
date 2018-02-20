@@ -113,8 +113,10 @@ function playGame() {
     }
 
     function incorrectGuess() {
-        guessesRemaining = guessesRemaining + 1;
         document.getElementById("lettersWrong").append(userGuess);
+        document.getElementById("guessesRemaining").innerHTML = "Guesses Remaining: " + (guessesRemaining - 1);
+        playGame();
+
     }
 
     function duplicateGuess() {
