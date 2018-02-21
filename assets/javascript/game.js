@@ -54,7 +54,7 @@ function newGame() {
 
     //Show wins and GuessesRemaining
     document.getElementById("changeWins").innerHTML = "Wins: " + changeWins;
-    document.getElementById("descriptor").innerHTML = "Choose wisely. You have " + guessesRemaining + " guesses remaining to hang the killer.";
+    document.getElementById("descriptor").innerHTML = "Choose wisely. You have " + guessesRemaining + " guesses remaining.";
     document.getElementById("guessesRemaining").innerHTML = "Guesses Remaining: " + guessesRemaining;
 
     // Run computerChoice to generate a word//
@@ -134,6 +134,7 @@ function playGame() {
         } else {
             document.getElementById("lettersWrong").append(userGuess);
             document.getElementById("guessesRemaining").innerHTML = "Guesses Remaining: " + (guessesRemaining - 1);
+            document.getElementById("descriptor").innerHTML = "Choose wisely. You have " + (guessesRemaining - 1) + " guesses remaining.";
             playGame();
         }
     }
