@@ -32,14 +32,16 @@ var matchingLetter = [];
 window.onload = function (event) {
     document.getElementById("bg-audio").play();
 }
-//Start new game on first click//
-document.onclick = newGame();
 
 //New Game
 function newGame() {
     // Reset values //
-    matchingLetter = [];
     guessesRemaining = 4;
+    var computerChoice = 0;
+    var compuerChoiceLetters = 0;
+    var newUl = "";
+    var placeholder = "";
+
 
     //Show wins and GuessesRemaining
     document.getElementById("changeWins").innerHTML = "Wins: " + changeWins;
@@ -66,6 +68,9 @@ function newGame() {
 
     playGame();
 }
+
+//Start new game on first click//
+document.onclick = newGame();
 
 // Function to remove all Child elements
 function removeChildElements(rootEl) {
@@ -103,6 +108,10 @@ function correctGuess() {
     document.getElementById("resultCorrect").innerHTML = " Good guess! "
     var letterBlanksList = document.getElementById("letterBlanks");
     var letterBlanksItems = letterBlanksList.getElementsByTagName("li");
+    removeChildElements(document.getElementById("resultWinner"));
+    removeChildElements(document.getElementById("resultLoser"));
+    removeChildElements(document.getElementById("resultDuplicate"));
+    removeChildElements(document.getElementById("resultIncorrect"));
     for (var i = 0; i < computerChoiceLetters.length; i++) {
         if (computerChoiceLetters[i] == userGuess) {
             letterBlanksItems[i].innerHTML = userGuess;
@@ -121,7 +130,7 @@ function incorrectGuess() {
     removeChildElements(document.getElementById("resultWinner"));
     removeChildElements(document.getElementById("resultLoser"));
     removeChildElements(document.getElementById("resultCorrect"));
-    removeChildElements(document.getElementById("resultIncorrect"));
+    removeChildElements(document.getElementById("resultDuplicate"));
     if (guessesRemaining < 1) {
         document.getElementById("guessesRemaining").innerHTML = "Guesses Remaining: " + (guessesRemaining);
         document.getElementById("descriptor").innerHTML = "Choose wisely. You have " + (guessesRemaining) + " guesses remaining.";
@@ -153,6 +162,7 @@ function displayWinner() {
     removeChildElements(document.getElementById("resultDuplicate"));
     removeChildElements(document.getElementById("resultCorrect"));
     removeChildElements(document.getElementById("resultIncorrect"));
+    removeChildElements(document.getElementById("resultLoser"));
     document.getElementById("resultWinner").innerHTML = " Good job traveler! The prisoner has been executed. ";
     removeChildElements(document.getElementById("letterBlanks"));
     removeChildElements(document.getElementById("lettersWrong"));
