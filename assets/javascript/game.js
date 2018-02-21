@@ -41,15 +41,8 @@ window.onload = function () {
 //New Game
 function newGame() {
     // Reset values //
-    lettersWrong = 0;
-    lettersRight = 0;
     matchingLetter = [];
     guessesRemaining = 4;
-
-    //Clear old Letter Tiles and Letters Played lists
-    removeChildElements(document.getElementById("lettersWrong"));
-    removeChildElements(document.getElementById("lettersRight"));
-
 
     //Show wins and GuessesRemaining
     document.getElementById("changeWins").innerHTML = "Wins: " + changeWins;
@@ -164,16 +157,22 @@ function displayWinner() {
     removeChildElements(document.getElementById("resultIncorrect"));
     document.getElementById("resultWinner").innerHTML = " Good job traveler! The prisoner has been executed. ";
     removeChildElements(document.getElementById("letterBlanks"));
+    removeChildElements(document.getElementById("lettersWrong"));
+    removeChildElements(document.getElementById("lettersRight"));
     newGame();
 }
 
 function displayLoser() {
     console.log("The prisoner got away...");
+    removeChildElements(document.getElementById("guessesRemaining"));
+    document.getElementById("guessesRemaining").append("Guesses Remaining: " + guessesRemaining);
     removeChildElements(document.getElementById("resultDuplicate"));
     removeChildElements(document.getElementById("resultCorrect"));
     removeChildElements(document.getElementById("resultIncorrect"));
     removeChildElements(document.getElementById("letterBlanks"));
     document.getElementById("resultLoser").innerHTML = "The prisoner got away...";
+    removeChildElements(document.getElementById("lettersWrong"));
+    removeChildElements(document.getElementById("lettersRight"));
     newgame();
 }
 
