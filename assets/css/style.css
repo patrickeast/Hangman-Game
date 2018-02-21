@@ -152,4 +152,8 @@ p, li, ul, ol {
  }
 }
 
+.btn-primary {
+    display: hidden;
+}
+
 

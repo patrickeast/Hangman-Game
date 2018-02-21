@@ -31,7 +31,7 @@ var matchingLetter = [];
 
 //FUNCTIONS//
 //Background Audio//
-window.onload = function () {
+window.onload = function (startOver) {
     document.getElementById("bg-audio").play();
     newGame();
 
@@ -43,7 +43,6 @@ function newGame() {
     // Reset values //
     matchingLetter = [];
     guessesRemaining = 4;
-
     //Show wins and GuessesRemaining
     document.getElementById("changeWins").innerHTML = "Wins: " + changeWins;
     document.getElementById("descriptor").innerHTML = "Choose wisely. You have " + guessesRemaining + " guesses remaining.";
@@ -67,11 +66,10 @@ function newGame() {
         document.getElementById("letterBlanks").appendChild(newUl);
     }
 
-
     playGame();
 }
 
-// Removes all Child elements
+// Function to remove all Child elements
 function removeChildElements(rootEl) {
     while (rootEl.firstChild) {
         rootEl.removeChild(rootEl.firstChild);
@@ -84,13 +82,6 @@ function playGame() {
     //Log keystrokes
     document.onkeypress = function (event) {
         userGuess = event.key;
-
-        removeChildElements(document.getElementById("resultWinner"));
-        removeChildElements(document.getElementById("resultLoser"));
-        removeChildElements(document.getElementById("resultDuplicate"));
-        removeChildElements(document.getElementById("resultCorrect"));
-        removeChildElements(document.getElementById("resultIncorrect"));
-
 
         //Query keystrokes against computerChoice
         if (userGuess === lettersWrong || userGuess === lettersRight) {
@@ -106,7 +97,7 @@ function playGame() {
 
 
 
-
+//When the user picks a correct letter
 function correctGuess() {
     console.log("That's one of the letters!");
     lettersRight = userGuess;
@@ -130,13 +121,14 @@ function incorrectGuess() {
     console.log("That's not one of the letters.");
     lettersWrong = userGuess;
     if (guessesRemaining < 1) {
+        document.getElementById("guessesRemaining").innerHTML = "Guesses Remaining: " + (guessesRemaining);
+        document.getElementById("descriptor").innerHTML = "Choose wisely. You have " + (guessesRemaining) + " guesses remaining.";
         displayLoser();
     } else {
         document.getElementById("lettersWrong").append(userGuess);
         document.getElementById("guessesRemaining").innerHTML = "Guesses Remaining: " + (guessesRemaining);
         document.getElementById("descriptor").innerHTML = "Choose wisely. You have " + (guessesRemaining) + " guesses remaining.";
-        document.getElementById("resultIncorrect").innerHTML = " Whoops. The prisoner just got one step closer to freedom."
-        playGame();
+        document.getElementById("resultIncorrect").innerHTML = " Umm... That's not right. ";
     }
 }
 
@@ -173,7 +165,12 @@ function displayLoser() {
     document.getElementById("resultLoser").innerHTML = "The prisoner got away...";
     removeChildElements(document.getElementById("lettersWrong"));
     removeChildElements(document.getElementById("lettersRight"));
-    newgame();
+    startOver();
 }
+
+// function startOver() {
+//     document.getElementById("resetButton").innerHTML("Try again?");
+//     newGame();
+// }
 
 
