@@ -20,8 +20,6 @@ var activeWord = [
 var computerChoice;
 var computerChoiceLetters = [];
 var userGuess = [];
-var newGame;
-var playGame;
 var lettersWrong = [];
 var lettersRight = [];
 var guessesRemaining = 4;
@@ -31,18 +29,18 @@ var matchingLetter = [];
 
 //FUNCTIONS//
 //Background Audio//
-window.onload = function (startOver) {
+window.onload = function (event) {
     document.getElementById("bg-audio").play();
-    newGame();
-
-
 }
+//Start new game on first click//
+document.onclick = newGame();
 
 //New Game
 function newGame() {
     // Reset values //
     matchingLetter = [];
     guessesRemaining = 4;
+
     //Show wins and GuessesRemaining
     document.getElementById("changeWins").innerHTML = "Wins: " + changeWins;
     document.getElementById("descriptor").innerHTML = "Choose wisely. You have " + guessesRemaining + " guesses remaining.";
@@ -50,7 +48,7 @@ function newGame() {
 
     // Run computerChoice to generate a word//
     computerChoice = activeWord[Math.floor(Math.random() * activeWord.length)];
-    console.log(computerChoice);
+    console.log("Shh...The answer is " + computerChoice);
 
     // Create an array out of computerChoice//
     for (var i = 0; i < computerChoice.length; i++) {
@@ -120,6 +118,10 @@ function incorrectGuess() {
     guessesRemaining = guessesRemaining - 1;
     console.log("That's not one of the letters.");
     lettersWrong = userGuess;
+    removeChildElements(document.getElementById("resultWinner"));
+    removeChildElements(document.getElementById("resultLoser"));
+    removeChildElements(document.getElementById("resultCorrect"));
+    removeChildElements(document.getElementById("resultIncorrect"));
     if (guessesRemaining < 1) {
         document.getElementById("guessesRemaining").innerHTML = "Guesses Remaining: " + (guessesRemaining);
         document.getElementById("descriptor").innerHTML = "Choose wisely. You have " + (guessesRemaining) + " guesses remaining.";
@@ -134,6 +136,10 @@ function incorrectGuess() {
 
 function duplicateGuess() {
     console.log("That letter has already been picked");
+    removeChildElements(document.getElementById("resultWinner"));
+    removeChildElements(document.getElementById("resultLoser"));
+    removeChildElements(document.getElementById("resultCorrect"));
+    removeChildElements(document.getElementById("resultIncorrect"));
     document.getElementById("resultDuplicate").innerHTML = " Whoops. That letter has already been chosen. ";
     playGame();
 }
@@ -161,11 +167,11 @@ function displayLoser() {
     removeChildElements(document.getElementById("resultDuplicate"));
     removeChildElements(document.getElementById("resultCorrect"));
     removeChildElements(document.getElementById("resultIncorrect"));
-    removeChildElements(document.getElementById("letterBlanks"));
     document.getElementById("resultLoser").innerHTML = "The prisoner got away...";
     removeChildElements(document.getElementById("lettersWrong"));
     removeChildElements(document.getElementById("lettersRight"));
-    startOver();
+    
+    newGame();
 }
 
 // function startOver() {
