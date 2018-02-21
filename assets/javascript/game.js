@@ -28,6 +28,7 @@ var guessesRemaining = 4;
 var changeWins = 0;
 var changeLosses = 0;
 var matchingLetter = [];
+var resultDisplay;
 
 //FUNCTIONS//
 //Background Audio//
@@ -145,8 +146,9 @@ function playGame() {
 
 
     function displayWinner() {
-        alert("Good job, traveler. The prisoner has been executed.")
+        // alert("Good job, traveler. The prisoner has been executed.")
         console.log("You are a winner!");
+        document.getElementById("resultDisplay").innerHTML = " Good job traveler. The prisoner has been executed. ";
         document.getElementById("changeWins").append(changeWins + 1);
         newGame();
     }
