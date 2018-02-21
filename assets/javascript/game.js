@@ -89,23 +89,19 @@ function removeChildElements(rootEl) {
 
 //What happens when the game begins
 function playGame() {
+    
     //Log keystrokes
     document.onkeydown = function (event) {
         userGuess = event.key;
 
         //Query keystrokes against computerChoice
-        if (computerChoiceLetters === userGuess) {
+        if (userGuess === lettersWrong || userGuess === lettersRight) {
             duplicateGuess();
-        }
-        else {
-            // saveUserGuess();
-            if (computerChoiceLetters.indexOf(userGuess) > -1) {
+        } else if (computerChoiceLetters.indexOf(userGuess) > -1) {
                 correctGuess();
-            }
-            else {
+        } else {
                 incorrectGuess();
-            }
-        }
+        } 
     }
 
 
@@ -115,6 +111,7 @@ function playGame() {
     function correctGuess() {
         lettersRight = userGuess;
         document.getElementById("lettersRight").append(userGuess);
+        document.getElementById("resultCorrect").innerHTML = " Good guess! "
         var letterBlanksList = document.getElementById("letterBlanks");
         var letterBlanksItems = letterBlanksList.getElementsByTagName("li");
         for (var i = 0; i < computerChoiceLetters.length; i++) {
@@ -136,25 +133,29 @@ function playGame() {
             document.getElementById("lettersWrong").append(userGuess);
             document.getElementById("guessesRemaining").innerHTML = "Guesses Remaining: " + (guessesRemaining - 1);
             document.getElementById("descriptor").innerHTML = "Choose wisely. You have " + (guessesRemaining - 1) + " guesses remaining.";
+            document.getElementById("resultIncorrect").innerHTML = " Nope. The prisoner just got one step closer to freedom."
             playGame();
         }
     }
 
     function duplicateGuess() {
         console.log("That letter has already been picked");
+        document.getElementById("resultDuplicate").innerHTML = " Whoops. That letter has already been chosen. ";
+        playGame();
     }
 
 
     function displayWinner() {
         // alert("Good job, traveler. The prisoner has been executed.")
         console.log("You are a winner!");
-        document.getElementById("resultDisplay").innerHTML = " Good job traveler. The prisoner has been executed. ";
+        document.getElementById("resultWinner").innerHTML = " Good job traveler. The prisoner has been executed. ";
         document.getElementById("changeWins").append(changeWins + 1);
         newGame();
     }
 
     function displayLoser() {
         console.log("The prisoner got away...");
+        document.getElementById("resultLoser").innerHTML = "The prisoner got away...";
         newgame();
     }
 }
