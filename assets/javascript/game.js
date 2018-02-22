@@ -35,15 +35,13 @@ window.onload = function (event) {
 
 //New Game
 function newGame() {
+    console.log("newGame has begun");
     // Reset values //
     guessesRemaining = 4;
-    var computerChoice = 0;
-    var compuerChoiceLetters = 0;
-    var newUl = "";
-    var placeholder = "";
-
+    document.getElementById("placeholderDiv").innerHTML = "";
 
     //Show wins and GuessesRemaining
+    document.getElementById("resultCorrect", "resultIncorrect", "resultDuplicate", "resultWinner", "resultLoser").innerHTML = "";
     document.getElementById("changeWins").innerHTML = "Wins: " + changeWins;
     document.getElementById("descriptor").innerHTML = "Choose wisely. You have " + guessesRemaining + " guesses remaining.";
     document.getElementById("guessesRemaining").innerHTML = "Guesses Remaining: " + guessesRemaining;
@@ -55,7 +53,6 @@ function newGame() {
     // Create an array out of computerChoice//
     for (var i = 0; i < computerChoice.length; i++) {
         computerChoiceLetters.push(computerChoice.charAt(i));
-        console.log(computerChoiceLetters);
     }
 
     // Insert underscores for every letter
@@ -63,21 +60,14 @@ function newGame() {
         var newUl = document.createElement("li");
         var placeHolder = document.createTextNode("_");
         newUl.appendChild(placeHolder);
-        document.getElementById("letterBlanks").appendChild(newUl);
+        document.getElementById("placeholderDiv").appendChild(newUl);
     }
 
     playGame();
 }
 
-//Start new game on first click//
-document.onclick = newGame();
+document.onload = newGame();
 
-// Function to remove all Child elements
-function removeChildElements(rootEl) {
-    while (rootEl.firstChild) {
-        rootEl.removeChild(rootEl.firstChild);
-    }
-}
 
 //What happens when the game begins
 function playGame() {
@@ -104,14 +94,11 @@ function playGame() {
 function correctGuess() {
     console.log("That's one of the letters!");
     lettersRight = userGuess;
+    document.getElementById("resultIncorrect", "resultDuplicate", "resultWinner", "resultLoser").innerHTML = "";
     document.getElementById("lettersRight").append(userGuess);
     document.getElementById("resultCorrect").innerHTML = " Good guess! "
-    var letterBlanksList = document.getElementById("letterBlanks");
+    var letterBlanksList = document.getElementById("placeholderDiv");
     var letterBlanksItems = letterBlanksList.getElementsByTagName("li");
-    removeChildElements(document.getElementById("resultWinner"));
-    removeChildElements(document.getElementById("resultLoser"));
-    removeChildElements(document.getElementById("resultDuplicate"));
-    removeChildElements(document.getElementById("resultIncorrect"));
     for (var i = 0; i < computerChoiceLetters.length; i++) {
         if (computerChoiceLetters[i] == userGuess) {
             letterBlanksItems[i].innerHTML = userGuess;
@@ -119,18 +106,16 @@ function correctGuess() {
         }
     }
     if (matchingLetter.toString() === computerChoiceLetters.toString()) {
+        document.getElementById("placeholderDiv").innerHTML = "";
         displayWinner();
     }
 }
 
 function incorrectGuess() {
-    guessesRemaining = guessesRemaining - 1;
     console.log("That's not one of the letters.");
+    guessesRemaining = guessesRemaining - 1;
+    document.getElementById("resultCorrect", "resultDuplicate", "resultWinner", "resultLoser").innerHTML = "";
     lettersWrong = userGuess;
-    removeChildElements(document.getElementById("resultWinner"));
-    removeChildElements(document.getElementById("resultLoser"));
-    removeChildElements(document.getElementById("resultCorrect"));
-    removeChildElements(document.getElementById("resultDuplicate"));
     if (guessesRemaining < 1) {
         document.getElementById("guessesRemaining").innerHTML = "Guesses Remaining: " + (guessesRemaining);
         document.getElementById("descriptor").innerHTML = "Choose wisely. You have " + (guessesRemaining) + " guesses remaining.";
@@ -145,48 +130,25 @@ function incorrectGuess() {
 
 function duplicateGuess() {
     console.log("That letter has already been picked");
-    removeChildElements(document.getElementById("resultWinner"));
-    removeChildElements(document.getElementById("resultLoser"));
-    removeChildElements(document.getElementById("resultCorrect"));
-    removeChildElements(document.getElementById("resultIncorrect"));
+    document.getElementById("resultCorrect", "resultIncorrect", 'resultWinner', "resultLoser").innerHTML = "";
     document.getElementById("resultDuplicate").innerHTML = " Whoops. That letter has already been chosen. ";
     playGame();
 }
 
 
 function displayWinner() {
-    // alert("Good job, traveler. The prisoner has been executed.")
     console.log("You are a winner!");
     changeWins = changeWins + 1;
     document.getElementById("changeWins").append(changeWins);
-    removeChildElements(document.getElementById("resultDuplicate"));
-    removeChildElements(document.getElementById("resultCorrect"));
-    removeChildElements(document.getElementById("resultIncorrect"));
-    removeChildElements(document.getElementById("resultLoser"));
+    document.getElementById("resultCorrect", "resultIncorrect", "resultDuplicate").innerHTML = "";
     document.getElementById("resultWinner").innerHTML = " Good job traveler! The prisoner has been executed. ";
-    removeChildElements(document.getElementById("letterBlanks"));
-    removeChildElements(document.getElementById("lettersWrong"));
-    removeChildElements(document.getElementById("lettersRight"));
     newGame();
 }
 
 function displayLoser() {
     console.log("The prisoner got away...");
-    removeChildElements(document.getElementById("guessesRemaining"));
+    document.getElementById("resultCorrect", "resultIncorrect", "resultDuplicate").innerHTML = "";
     document.getElementById("guessesRemaining").append("Guesses Remaining: " + guessesRemaining);
-    removeChildElements(document.getElementById("resultDuplicate"));
-    removeChildElements(document.getElementById("resultCorrect"));
-    removeChildElements(document.getElementById("resultIncorrect"));
     document.getElementById("resultLoser").innerHTML = "The prisoner got away...";
-    removeChildElements(document.getElementById("lettersWrong"));
-    removeChildElements(document.getElementById("lettersRight"));
-    
     newGame();
 }
-
-// function startOver() {
-//     document.getElementById("resetButton").innerHTML("Try again?");
-//     newGame();
-// }
-
-
